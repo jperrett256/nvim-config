@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
 -- vim.g.maplocalleader = "\\"
 
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+-- TODO not sure which I prefer yet
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>rw", vim.cmd.Ex)
 
 -- clearing highlighting after search
 local function clear_hl()
@@ -46,19 +48,13 @@ vim.keymap.set("v", " ", "")
 -- TODO not sure if needed yet
 -- vim.keymap.set("n", "Q", "<nop>")
 
--- TODO this is just a mapping override - should be specified in lsp file
--- I wonder if this is here because <leader> isn't known at the point that file is sourced?
--- should consider using the structure suggested by lazy.nvim (vs using after/), might fix that issue
-vim.keymap.set("n", "<leader>f", function()
-  vim.lsp.buf.format()
-end)
-
 -- QuickFix
--- TODO not sure I understand cnext/lnext
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+-- TODO add something for :cfirst/crewind? Maybe :crewind followed by :cfirst?
+vim.keymap.set("n", "<C-n>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-p>", "<cmd>cprev<CR>zz")
+-- TODO not sure I understand lnext/lprev
+vim.keymap.set("n", "<leader>n", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "<leader>p", "<cmd>lprev<CR>zz")
 
 -- replace all instances of the word under the cursor
 -- (TODO not totally sure how, but CTRL-R CTRL-W gets the word under the cursor)
@@ -66,4 +62,3 @@ vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left>
 
 -- make current file executable (Unix only)
 -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-

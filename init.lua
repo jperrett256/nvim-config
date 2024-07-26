@@ -2,6 +2,10 @@ require("set")
 require("autocommands")
 require("remap")
 
+-- TODO should maybe consider using the structure suggested by lazy.nvim
+-- (as opposed to using after/), might make execution ordering a little
+-- bit easier to handle (not a big issue yet).
+
 require("lazy-bootstrap")
 require("lazy").setup({
   spec = {

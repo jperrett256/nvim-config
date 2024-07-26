@@ -14,7 +14,7 @@ require("neo-tree").setup({
   enable_diagnostics = true,
   open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
   sort_case_insensitive = false, -- used when sorting files and directories in the tree
-  sort_function = nil , -- use a custom function for sorting files and directories in the tree 
+  sort_function = nil , -- use a custom function for sorting files and directories in the tree
   -- sort_function = function (a,b)
   --       if a.type == b.type then
   --           return a.path > b.path
@@ -108,7 +108,7 @@ require("neo-tree").setup({
     mappings = {
       ["<space>"] = {
         "toggle_node",
-        nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use 
+        nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
       },
       ["<2-LeftMouse>"] = "open",
       ["<cr>"] = "open",
@@ -193,7 +193,8 @@ require("neo-tree").setup({
       leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
     },
     group_empty_dirs = false, -- when true, empty folders will be grouped together
-    hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+    -- hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
+    hijack_netrw_behavior = "disabled",
     -- in whatever position is specified in window.position
     -- "open_current",  -- netrw disabled, opening a directory opens within the
     -- window like netrw would, regardless of window.position

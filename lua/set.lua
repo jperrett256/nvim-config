@@ -35,3 +35,7 @@ vim.opt.scrolloff = 8
 
 -- NOTE vim.opt.backspace is set to "indent,eol,start" by default
 
+-- horizontal and vertical splits place focus in the right/bottom window instead
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
