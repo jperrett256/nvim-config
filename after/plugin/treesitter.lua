@@ -1,4 +1,4 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup({
   -- A list of parser names, or "all" (the listed parsers MUST always be installed)
   ensure_installed = { "c", "cpp", "lua", "rust", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
 
@@ -38,4 +38,14 @@ require'nvim-treesitter.configs'.setup {
     -- Instead of true it can also be a list of languages
     -- additional_vim_regex_highlighting = false,
   },
-}
+  -- nvim-treesitter/nvim-treesitter-textobjects
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        ['uc'] = '@comment.outer',
+      },
+    },
+  },
+})
+

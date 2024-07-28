@@ -62,3 +62,8 @@ vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left>
 
 -- make current file executable (Unix only)
 -- vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+
+-- make leaving terminal mode easier
+-- NOTE use :terminal to create a new terminal
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+
