@@ -99,8 +99,8 @@ require("neo-tree").setup({
   -- see `:h neo-tree-custom-commands-global`
   commands = {},
   window = {
-    position = "left",
-    width = 40,
+    position = "current",
+    width = "100%",
     mapping_options = {
       noremap = true,
       nowait = true,
@@ -112,6 +112,8 @@ require("neo-tree").setup({
       },
       ["<2-LeftMouse>"] = "open",
       ["<cr>"] = "open",
+      -- NOTE this doesn't apply to the fuzzy finder window
+      -- ["<C-c>"] = "cancel", -- close preview or floating neo-tree window
       ["<esc>"] = "cancel", -- close preview or floating neo-tree window
       ["P"] = { "toggle_preview", config = { use_float = true, use_image_nvim = true } },
       -- Read `# Preview Mode` for more information
@@ -193,12 +195,7 @@ require("neo-tree").setup({
       leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
     },
     group_empty_dirs = false, -- when true, empty folders will be grouped together
-    -- hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
-    hijack_netrw_behavior = "disabled",
-    -- in whatever position is specified in window.position
-    -- "open_current",  -- netrw disabled, opening a directory opens within the
-    -- window like netrw would, regardless of window.position
-    -- "disabled",    -- netrw left alone, neo-tree does not handle opening dirs
+    hijack_netrw_behavior = "disabled", -- netrw left alone, neo-tree does not handle opening dirs
     use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
     -- instead of relying on nvim autocmd events.
     window = {
@@ -229,6 +226,7 @@ require("neo-tree").setup({
         ["<C-n>"] = "move_cursor_down",
         ["<up>"] = "move_cursor_up",
         ["<C-p>"] = "move_cursor_up",
+        -- TODO no way to override cancel here to be <C-c> it seems... (unless I fork the plugin and hardcode the changes)
         -- ['<key>'] = function(state, scroll_padding) ... end,
       },
     },
