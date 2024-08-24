@@ -48,6 +48,7 @@ require('mason-lspconfig').setup({
   -- helpful list available at: https://github.com/williamboman/mason-lspconfig.nvim
   -- NOTE no luck with biome on Windows, so using jsonls at the moment
   ensure_installed = { 'rust_analyzer', 'lua_ls', 'tsserver', 'clangd', 'zls', 'jsonls' },
+  -- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   handlers = {
     function(server_name)
       require('lspconfig')[server_name].setup({})
@@ -65,6 +66,19 @@ require('mason-lspconfig').setup({
               globals = { 'vim' }
             }
           }
+        }
+      })
+    end,
+    ["clangd"] = function ()
+      local lspconfig = require("lspconfig")
+      lspconfig.clangd.setup({
+        cmd = {
+          "clangd",
+          -- NOTE this prevents clangd from inserting headers automatically
+          -- a. often inserts the originating header file, even if already transitively included
+          -- b. for cpp files, will include cpp headers where the c headers might be preferred
+          -- (whether these behaviours are desired depends on context, would rather handle manually)
+          "--header-insertion=never",
         }
       })
     end,
@@ -86,6 +100,7 @@ cmp.setup({
          return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
        end
      },
+     { name = 'luasnip' },
   },
   -- NOTE <C-Space> does not seem to work properly (at least on Windows)
   mapping = cmp.mapping.preset.insert({
@@ -134,10 +149,14 @@ cmp.setup({
 
 local ls = require("luasnip")
 
--- vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+-- NOTE expand binding is strictly unnecessary now that luasnip snippets appear
+-- in autocomplete suggestions (but leaving here in case it ends up being convenient)
+vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+
 vim.keymap.set({"i", "s"}, "<C-L>", function() ls.jump( 1) end, {silent = false})
 vim.keymap.set({"i", "s"}, "<C-J>", function() ls.jump(-1) end, {silent = false})
 
+-- TODO haven't encountered snippets with choice nodes yet, should probably uncomment?
 -- vim.keymap.set({"i", "s"}, "<C-E>", function()
 --   if ls.choice_active() then
 --     ls.change_choice(1)

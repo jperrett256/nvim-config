@@ -13,3 +13,5 @@ vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
 --     builtin.grep_string({ search = vim.fn.input("grep > ") })
 -- end)
 
+-- TODO swap tab and shift+tab directions
+

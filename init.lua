@@ -2,6 +2,8 @@ require("set")
 require("autocommands")
 require("remap")
 require("netrw")
+require("commands")
+require("utils")
 
 if vim.g.neovide then
   if vim.fn.has("win32") == 1 then
@@ -117,9 +119,13 @@ require("lazy").setup({
         {'williamboman/mason.nvim'},
         {'williamboman/mason-lspconfig.nvim'},
         {'neovim/nvim-lspconfig'},
-        {'hrsh7th/cmp-nvim-lsp'},
+        -- TODO should probably move the following packages out into
+        -- main list (doesn't change anything, but there aren't really
+        -- mere "dependencies" at this point)
         {'hrsh7th/nvim-cmp'},
+        {'hrsh7th/cmp-nvim-lsp'},
         {'L3MON4D3/LuaSnip'},
+        {'saadparwaiz1/cmp_luasnip'},
       }
     },
     {'ThePrimeagen/vim-be-good'}, -- NOTE misc plugin for learning vim
