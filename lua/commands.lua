@@ -29,3 +29,23 @@ vim.api.nvim_create_user_command('ConfigExplore', function()
   vim.cmd("Ex " .. vim.fn.stdpath("config"))
 end, { desc = "Open the user configuration directory with Netrw." })
 
+vim.api.nvim_create_user_command(
+  'ShadaClear',
+  function(opts)
+    -- NOTE tried using :wshada!, but did not remove all files, so adding this command instead
+
+    -- checked, appears to be standard location for both windows and unix
+    local paths = vim.fn.split(vim.fn.glob(vim.fn.stdpath('state')..'/shada/*'), '\n')
+    for _, file in pairs(paths) do
+      if not string.find(file, ".shada") then
+        error("Unexpected file in shada directory: \""..file.."\"")
+      end
+      print(file)
+      if os.remove(file) == nil then
+        error("Failed to remove shada file: \""..file.."\"")
+      end
+    end
+  end,
+  {} -- NOTE nargs = 0 is the default
+)
+
