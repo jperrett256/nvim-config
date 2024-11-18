@@ -29,6 +29,15 @@ vim.api.nvim_create_user_command('ConfigExplore', function()
   vim.cmd("Ex " .. vim.fn.stdpath("config"))
 end, { desc = "Open the user configuration directory with Netrw." })
 
+-- TODO check if windows
+vim.api.nvim_create_user_command(
+  'OSExplore',
+  function(opts)
+    vim.cmd("silent !start \"\" \"%:p:h\"")
+  end,
+  {}
+)
+
 vim.api.nvim_create_user_command(
   'ShadaClear',
   function(opts)
