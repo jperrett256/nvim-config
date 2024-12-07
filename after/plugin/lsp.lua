@@ -47,7 +47,7 @@ require('mason-lspconfig').setup({
   -- add the language servers you want to install
   -- helpful list available at: https://github.com/williamboman/mason-lspconfig.nvim
   -- NOTE no luck with biome on Windows, so using jsonls at the moment
-  ensure_installed = { 'rust_analyzer', 'lua_ls', 'tsserver', 'clangd', 'zls', 'jsonls' },
+  ensure_installed = { 'rust_analyzer', 'lua_ls', 'ts_ls', 'clangd', 'zls', 'jsonls' },
   -- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   handlers = {
     function(server_name)
