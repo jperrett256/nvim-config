@@ -8,10 +8,36 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
 
--- NOTE I could only imagine this would be useful if you don't want to respect .gitignore files
--- vim.keymap.set('n', '<leader>ps', function()
---     builtin.grep_string({ search = vim.fn.input("grep > ") })
--- end)
+local utils = require('telescope.utils')
 
--- TODO swap tab and shift+tab directions
+vim.keymap.set('n', '<leader>fdf', function ()
+  builtin.find_files({ cwd = utils.buffer_dir() })
+end, {})
+
+vim.keymap.set('n', '<leader>fds', function ()
+  builtin.live_grep({ cwd = utils.buffer_dir() })
+end, {})
+
+require('telescope').setup({
+  defaults = {
+    mappings = {
+      i = {
+        -- NOTE still not sure when to use actions.move_selection_worse/better
+        -- over actions.move_selection_previous/next
+        ["<Tab>"] = actions.toggle_selection,
+        ["<S-Tab>"] = actions.nop,
+      },
+      n = {
+        ["<C-n>"] = actions.move_selection_next,
+        ["<C-p>"] = actions.move_selection_previous,
+
+        ["<Tab>"] = actions.toggle_selection,
+        ["<S-Tab>"] = actions.nop,
+
+        ["<Esc>"] = actions.nop,
+        ["<C-c>"] = actions.close,
+      }
+    }
+  }
+})
 

@@ -1,6 +1,6 @@
 -- File Specific Settings
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = {"lua", "json", "dosbatch"},
+	pattern = {"lua", "json", "dosbatch", "sh"},
 	callback = function()
 		vim.opt_local.tabstop = 2
 		vim.opt_local.shiftwidth = 2
