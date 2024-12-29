@@ -33,7 +33,15 @@ end, { desc = "Open the user configuration directory with Netrw." })
 vim.api.nvim_create_user_command(
   'OSExplore',
   function(opts)
-    vim.cmd("silent !start \"\" \"%:p:h\"")
+    -- TODO like the telescope utility function, this doesn't work perfectly for directories open in netrw sometimes
+    local buffer_base_path = "%:p:h"
+
+    if vim.fn.has("win32") == 1 then
+      vim.cmd("silent !start \"\" \""..buffer_base_path.."\"")
+    elseif vim.fn.has("mac") == 1 then -- TODO supposedly unreliable method for detecting OS is MacOS (should use uname)
+      vim.cmd("silent !open \""..buffer_base_path.."\"")
+    end
+    -- TODO linux support? (nautilus)
   end,
   {}
 )
