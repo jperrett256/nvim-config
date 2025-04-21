@@ -26,6 +26,13 @@ lsp_zero.on_attach(function(client, bufnr)
   vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
   vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
 
+  vim.keymap.set('n', '[e', function()
+    vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })
+  end, opts)
+  vim.keymap.set('n', ']e', function()
+    vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })
+  end, opts)
+
   -- TODO should see which of these mappings from ThePrimeagen I like
   -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
   -- vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
@@ -47,7 +54,7 @@ require('mason-lspconfig').setup({
   -- add the language servers you want to install
   -- helpful list available at: https://github.com/williamboman/mason-lspconfig.nvim
   -- NOTE no luck with biome on Windows, so using jsonls at the moment
-  ensure_installed = { 'rust_analyzer', 'lua_ls', 'ts_ls', 'clangd', 'zls', 'jsonls' },
+  ensure_installed = { 'rust_analyzer', 'lua_ls', 'ts_ls', 'clangd', 'zls', 'jsonls', 'gopls' },
   -- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
   handlers = {
     function(server_name)

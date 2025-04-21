@@ -29,11 +29,11 @@ vim.api.nvim_create_user_command('ConfigExplore', function()
   vim.cmd("Ex " .. vim.fn.stdpath("config"))
 end, { desc = "Open the user configuration directory with Netrw." })
 
--- TODO check if windows
 vim.api.nvim_create_user_command(
   'OSExplore',
   function(opts)
     -- TODO like the telescope utility function, this doesn't work perfectly for directories open in netrw sometimes
+    -- TODO use vim.b.netrw_curdir when netrw is being used?
     local buffer_base_path = "%:p:h"
 
     if vim.fn.has("win32") == 1 then
