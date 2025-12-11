@@ -89,6 +89,29 @@ require('mason-lspconfig').setup({
         }
       })
     end,
+    ["basedpyright"] = function ()
+      local lspconfig = require("lspconfig")
+      local type_diagnostic_severity = "none"
+      -- local type_diagnostic_severity = "information"
+      lspconfig.basedpyright.setup({
+        settings = {
+          basedpyright = {
+            analysis = {
+              diagnosticSeverityOverrides = {
+                reportUnknownParameterType = type_diagnostic_severity,
+                reportMissingParameterType = type_diagnostic_severity,
+                reportUnknownArgumentType = type_diagnostic_severity,
+                reportUnknownVariableType = type_diagnostic_severity,
+                reportUnknownLambdaType = type_diagnostic_severity,
+                reportUnknownMemberType = type_diagnostic_severity,
+                reportUnusedCallResult = type_diagnostic_severity,
+                reportAny = type_diagnostic_severity,
+              }
+            }
+          }
+        }
+      })
+    end,
   }
 })
 
