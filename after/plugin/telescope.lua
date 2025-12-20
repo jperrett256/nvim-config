@@ -8,14 +8,12 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
 
-local utils = require('telescope.utils')
-
 vim.keymap.set('n', '<leader>fdf', function ()
-  builtin.find_files({ cwd = utils.buffer_dir() })
+  builtin.find_files({ cwd = user_functions.get_buffer_dir() })
 end, {})
 
 vim.keymap.set('n', '<leader>fds', function ()
-  builtin.live_grep({ cwd = utils.buffer_dir() })
+  builtin.live_grep({ cwd = user_functions.get_buffer_dir() })
 end, {})
 
 require('telescope').setup({

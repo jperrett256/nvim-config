@@ -32,9 +32,7 @@ end, { desc = "Open the user configuration directory with Netrw." })
 vim.api.nvim_create_user_command(
   'OSExplore',
   function(opts)
-    -- TODO like the telescope utility function, this doesn't work perfectly for directories open in netrw sometimes
-    -- TODO use vim.b.netrw_curdir when netrw is being used?
-    local buffer_base_path = "%:p:h"
+    local buffer_base_path = user_functions.get_buffer_dir()
 
     if vim.fn.has("win32") == 1 then
       vim.cmd("silent !start \"\" \""..buffer_base_path.."\"")
@@ -64,5 +62,27 @@ vim.api.nvim_create_user_command(
     end
   end,
   {} -- NOTE nargs = 0 is the default
+)
+
+vim.api.nvim_create_user_command(
+  'CopyLineLocation',
+  function(opts)
+    local buffer_path = vim.fn.expand("%:.") -- relative to cwd
+    local r, c = unpack(vim.api.nvim_win_get_cursor(0))
+    local location = buffer_path..'('..r..')'
+    print(location)
+    vim.fn.setreg('"', location) -- write to unnamed register
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'SetTabWidth',
+  function(opts)
+    local width = tonumber(opts.fargs[1])
+    vim.opt_local.tabstop = width
+    vim.opt_local.shiftwidth = width
+  end,
+  { nargs = 1 }
 )
 
