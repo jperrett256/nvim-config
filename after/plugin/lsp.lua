@@ -1,45 +1,51 @@
-local lsp_zero = require('lsp-zero')
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(event)
+    local bufnr = event.buf
+    local opts = {buffer = bufnr} -- NOTE remap = false by default (remap is not recursive)
 
--- lsp.preset("recommended")
+    -- NOTE ctrl-x + ctrl-o triggers code completion in insert mode
+    -- NOTE ctrl-s displays type signature under cursor
 
-lsp_zero.on_attach(function(client, bufnr)
-  -- NOTE setting mappings explicitly, for ease of checking and modification
-  -- lsp_zero.default_keymaps({
-  --   buffer = bufnr,
-  --   -- preserve_mappings = false,
-  --   -- exclude = { 'gl', 'K' }
-  -- })
-  local opts = {buffer = bufnr} -- NOTE remap = false by default (remap is not recursive)
+    -- TODO gq vs = for format selected text
 
-  vim.keymap.set('n', 'K', function () vim.lsp.buf.hover() end, opts)
-  vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-  vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
-  vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
-  vim.keymap.set('n', 'go', function() vim.lsp.buf.type_definition() end, opts)
-  vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set('n', 'gs', function() vim.lsp.buf.signature_help() end, opts)
-  vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
-  vim.keymap.set({'n', 'x'}, '<F3>', function() vim.lsp.buf.format({async = true}) end, opts)
-  vim.keymap.set('n', '<F4>', function() vim.lsp.buf.code_action() end, opts)
+    vim.keymap.set('n', 'K', function () vim.lsp.buf.hover() end, opts)
+    -- NOTE default is ctrl-]
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, opts)
+    -- TODO default is gri
+    vim.keymap.set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
+    -- TODO default is grt
+    vim.keymap.set('n', 'go', function() vim.lsp.buf.type_definition() end, opts)
+    -- TODO default is grr
+    vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, opts)
 
-  vim.keymap.set('n', 'gl', function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
+    -- TODO what is Select mode ('s')
+    -- TODO ctrl-s in insert mode already does this?
+    vim.keymap.set('n', 'gs', function() vim.lsp.buf.signature_help() end, opts)
+    -- TODO is this grn by default?
+    vim.keymap.set('n', '<F2>', function() vim.lsp.buf.rename() end, opts)
+    -- TODO why do I have this keymap, what does async mean
+    vim.keymap.set({'n', 'x'}, '<F3>', function() vim.lsp.buf.format({async = true}) end, opts)
+    -- TODO is this gra by default?
+    vim.keymap.set('n', '<F4>', function() vim.lsp.buf.code_action() end, opts)
 
-  vim.keymap.set('n', '[e', function()
-    vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })
-  end, opts)
-  vim.keymap.set('n', ']e', function()
-    vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })
-  end, opts)
+    -- TODO what does gO do? list all symbols? vim.lsp.buf.document_symbol()?
 
-  -- TODO should see which of these mappings from ThePrimeagen I like
-  -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  -- vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-  -- vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-  -- vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-  -- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-end)
+    -- TODO what is this
+    vim.keymap.set('n', 'gl', function() vim.diagnostic.open_float() end, opts)
+
+    -- TODO apparently ctrl-w + d shows error/warning on line under cursor
+    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
+    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
+
+    vim.keymap.set('n', '[e', function()
+      vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })
+    end, opts)
+    vim.keymap.set('n', ']e', function()
+      vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })
+    end, opts)
+  end,
+})
 
 vim.api.nvim_create_user_command(
   'LspFormat',
@@ -51,71 +57,59 @@ vim.api.nvim_create_user_command(
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  -- add the language servers you want to install
   -- helpful list available at: https://github.com/williamboman/mason-lspconfig.nvim
   -- NOTE no luck with biome on Windows, so using jsonls at the moment
   ensure_installed = { 'rust_analyzer', 'lua_ls', 'ts_ls', 'clangd', 'zls', 'jsonls', 'gopls', 'basedpyright' },
-  -- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-  handlers = {
-    function(server_name)
-      require('lspconfig')[server_name].setup({})
-    end,
-    -- not sure if needed:
-    -- ["rust_analyzer"] = function ()
-    --   require("rust-tools").setup({})
-    -- end,
-    ["lua_ls"] = function ()
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { 'vim' }
-            }
-          }
-        }
-      })
-    end,
-    ["clangd"] = function ()
-      local lspconfig = require("lspconfig")
-      lspconfig.clangd.setup({
-        cmd = {
-          "clangd",
-          -- NOTE this prevents clangd from inserting headers automatically
-          -- a. often inserts the originating header file, even if already transitively included
-          -- b. for cpp files, will include cpp headers where the c headers might be preferred
-          -- (whether these behaviours are desired depends on context, would rather handle manually)
-          "--header-insertion=never",
-        }
-      })
-    end,
-    ["basedpyright"] = function ()
-      local lspconfig = require("lspconfig")
-      local type_diagnostic_severity = "none"
-      -- local type_diagnostic_severity = "information"
-      lspconfig.basedpyright.setup({
-        settings = {
-          basedpyright = {
-            analysis = {
-              diagnosticSeverityOverrides = {
-                reportUnknownParameterType = type_diagnostic_severity,
-                reportMissingParameterType = type_diagnostic_severity,
-                reportUnknownArgumentType = type_diagnostic_severity,
-                reportUnknownVariableType = type_diagnostic_severity,
-                reportUnknownLambdaType = type_diagnostic_severity,
-                reportUnknownMemberType = type_diagnostic_severity,
-                reportUnusedCallResult = type_diagnostic_severity,
-                reportAny = type_diagnostic_severity,
-              }
-            }
-          }
-        }
-      })
-    end,
+})
+
+
+-- TODO do I even need nvim-lspconfig?
+-- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+-- TODO can put these in a special directory I think? lsp/ or after/lsp/?
+vim.lsp.config("luals", {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' }
+      }
+    }
   }
 })
 
--- lsp_zero.set_sign_icons({})
+vim.lsp.config("clangd", {
+  cmd = {
+    "clangd",
+    -- NOTE this prevents clangd from inserting headers automatically
+    -- a. often inserts the originating header file, even if already transitively included
+    -- b. for cpp files, will include cpp headers where the c headers might be preferred
+    -- (whether these behaviours are desired depends on context, would rather handle manually)
+    "--header-insertion=never",
+  }
+})
+
+local type_diagnostic_severity = "none"
+-- local type_diagnostic_severity = "information"
+vim.lsp.config("basedpyright", {
+  settings = {
+    basedpyright = {
+      analysis = {
+        diagnosticSeverityOverrides = {
+          reportUnknownParameterType = type_diagnostic_severity,
+          reportMissingParameterType = type_diagnostic_severity,
+          reportUnknownArgumentType = type_diagnostic_severity,
+          reportUnknownVariableType = type_diagnostic_severity,
+          reportUnknownLambdaType = type_diagnostic_severity,
+          reportUnknownMemberType = type_diagnostic_severity,
+          reportUnusedCallResult = type_diagnostic_severity,
+          reportAny = type_diagnostic_severity,
+        }
+      }
+    }
+  }
+})
+
+
+-- TODO what is this again?
 vim.diagnostic.config({
   signs = false
 })

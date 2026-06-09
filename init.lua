@@ -26,18 +26,10 @@ require("lazy").setup({
       'nvim-telescope/telescope.nvim', tag = '0.1.8',
       dependencies = {'nvim-lua/plenary.nvim'}
     },
-    {'nvim-treesitter/nvim-treesitter', build = ':TSUpdate'},
+    {'nvim-treesitter/nvim-treesitter', branch = 'main', lazy = false, build = ':TSUpdate'},
     {'ThePrimeagen/harpoon', dependencies = {'nvim-lua/plenary.nvim'}},
     {'mbbill/undotree' },
     {'tpope/vim-fugitive' },
-    -- {
-    --   "tyrannicaltoucan/vim-quantum",
-    --   config = function()
-    --     -- NOTE vim.opt.background is 'dark' by default
-    --     vim.g.quantum_black=1
-    --     vim.cmd("colorscheme quantum")
-    --   end
-    -- },
     {
       "rose-pine/neovim", name = "rose-pine",
       config = function()
@@ -104,7 +96,13 @@ require("lazy").setup({
       opts = {}
     },
     -- used to define comment text objects for easy block uncommenting (with Comment.nvim)
-    {'nvim-treesitter/nvim-treesitter-textobjects'},
+    {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      branch = 'main',
+      init = function()
+        vim.g.no_plugin_maps = true
+      end,
+    },
     {
       'nvim-treesitter/nvim-treesitter-context',
       opts = {
@@ -113,21 +111,13 @@ require("lazy").setup({
       }
     },
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-    {
-      'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
-      dependencies = {
-        {'williamboman/mason.nvim'},
-        {'williamboman/mason-lspconfig.nvim'},
-        {'neovim/nvim-lspconfig'},
-        -- TODO should probably move the following packages out into
-        -- main list (doesn't change anything, but there aren't really
-        -- mere "dependencies" at this point)
-        {'hrsh7th/nvim-cmp'},
-        {'hrsh7th/cmp-nvim-lsp'},
-        {'L3MON4D3/LuaSnip'},
-        {'saadparwaiz1/cmp_luasnip'},
-      }
-    },
+    {'williamboman/mason.nvim'},
+    {'williamboman/mason-lspconfig.nvim'}, -- TODO could remove
+    {'neovim/nvim-lspconfig'}, -- TODO ought to remove, but reference
+    {'hrsh7th/nvim-cmp'},
+    {'hrsh7th/cmp-nvim-lsp'},
+    {'L3MON4D3/LuaSnip'},
+    {'saadparwaiz1/cmp_luasnip'},
     {'ThePrimeagen/vim-be-good'}, -- NOTE misc plugin for learning vim
   },
   -- colorscheme that will be used when installing plugins.
