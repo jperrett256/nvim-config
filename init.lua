@@ -23,7 +23,7 @@ require("lazy-bootstrap")
 require("lazy").setup({
   spec = {
     {
-      'nvim-telescope/telescope.nvim', tag = '0.1.8',
+      'nvim-telescope/telescope.nvim', tag = 'v0.2.2',
       dependencies = {'nvim-lua/plenary.nvim'}
     },
     {'nvim-treesitter/nvim-treesitter', branch = 'main', lazy = false, build = ':TSUpdate'},
@@ -124,5 +124,6 @@ require("lazy").setup({
   install = { colorscheme = { "rosepine" } },
   -- automatically check for plugin updates
   checker = { enabled = false },
+  rocks = { enabled = false }, -- no plugins depend on luarocks, suppressing warnings
 })
 
