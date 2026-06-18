@@ -111,9 +111,9 @@ require("lazy").setup({
       }
     },
     { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
-    {'williamboman/mason.nvim'},
-    {'williamboman/mason-lspconfig.nvim'}, -- TODO could remove
-    {'neovim/nvim-lspconfig'}, -- TODO ought to remove, but reference
+    {'mason-org/mason.nvim'},
+    {'mason-org/mason-lspconfig.nvim'}, -- NOTE provides :LspInstall command and automatically enables installed servers
+    {'neovim/nvim-lspconfig'}, -- NOTE provides default LSP configs
     {'hrsh7th/nvim-cmp'},
     {'hrsh7th/cmp-nvim-lsp'},
     {'L3MON4D3/LuaSnip'},
@@ -125,5 +125,6 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = false },
   rocks = { enabled = false }, -- no plugins depend on luarocks, suppressing warnings
+  -- git = { timeout = 120 }, -- default is 30s
 })
 

@@ -63,10 +63,9 @@ require('mason-lspconfig').setup({
 })
 
 
--- TODO do I even need nvim-lspconfig?
--- NOTE see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+-- NOTE see: https://github.com/neovim/nvim-lspconfig
 -- TODO can put these in a special directory I think? lsp/ or after/lsp/?
-vim.lsp.config("luals", {
+vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       diagnostics = {
@@ -80,8 +79,8 @@ vim.lsp.config("clangd", {
   cmd = {
     "clangd",
     -- NOTE this prevents clangd from inserting headers automatically
-    -- a. often inserts the originating header file, even if already transitively included
-    -- b. for cpp files, will include cpp headers where the c headers might be preferred
+    -- 1. often inserts the originating header file, even if already transitively included
+    -- 2. for cpp files, will include cpp headers where the c headers might be preferred
     -- (whether these behaviours are desired depends on context, would rather handle manually)
     "--header-insertion=never",
   }

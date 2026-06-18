@@ -1,9 +1,9 @@
-local parsers = { 'c', 'cpp', 'lua', 'rust', 'vim', 'vimdoc', 'query', 'markdown', 'markdown_inline' }
+local parsers = { 'c', 'cpp', 'lua', 'rust', 'vim', 'vimdoc', 'query', 'markdown', 'markdown_inline', 'go' }
 
 require('nvim-treesitter').install(parsers)
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'c', 'cpp', 'lua', 'rust', 'vim', 'help', 'query', 'markdown' },
+  pattern = { 'c', 'cpp', 'lua', 'rust', 'vim', 'help', 'query', 'markdown', 'go' },
   callback = function() vim.treesitter.start() end,
 })
 

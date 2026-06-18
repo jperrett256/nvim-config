@@ -18,9 +18,6 @@ end, {})
 
 require('telescope').setup({
   defaults = {
-    -- preview = {
-    --   treesitter = false, -- NOTE fall back on regex highlighting instead
-    -- },
     mappings = {
       i = {
         -- NOTE still not sure when to use actions.move_selection_worse/better
