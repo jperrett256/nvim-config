@@ -34,28 +34,34 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- TODO what is this
     vim.keymap.set('n', 'gl', function() vim.diagnostic.open_float() end, opts)
 
-    -- TODO apparently ctrl-w + d shows error/warning on line under cursor
-    vim.keymap.set('n', '[d', function()
-      vim.diagnostic.jump({ count=-1, float=true })
-    end, opts)
-    vim.keymap.set('n', ']d', function()
-      vim.diagnostic.jump({ count=1, float=true })
-    end, opts)
+    -- NOTE [d and ]d are nvim defaults
     vim.keymap.set('n', '[e', function()
       vim.diagnostic.jump({
         count=-1,
-        float=true,
         severity = { min = vim.diagnostic.severity.ERROR }
       })
     end, opts)
     vim.keymap.set('n', ']e', function()
       vim.diagnostic.jump({
         count=1,
-        float=true,
         severity = { min = vim.diagnostic.severity.ERROR }
       })
     end, opts)
   end,
+})
+
+vim.diagnostic.config({
+  -- disable diagnostic markers (pops in left side of line column, very distracting)
+  signs = false,
+  jump = {
+    -- show the diagnostic in a floating window after jumping to it
+    -- (NOTE: this is what ctrl-w + d does normally when hovering over a diagnostic)
+    on_jump = function(diagnostic, bufnr)
+      if diagnostic then
+        vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+      end
+    end,
+  },
 })
 
 vim.api.nvim_create_user_command(
@@ -118,11 +124,6 @@ vim.lsp.config("basedpyright", {
   }
 })
 
-
--- TODO what is this again?
-vim.diagnostic.config({
-  signs = false
-})
 
 local cmp = require('cmp')
 cmp.setup({
