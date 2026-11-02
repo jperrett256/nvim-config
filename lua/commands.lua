@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local function get_nvim_server()
   local env_name = "NVIM_SERVER_ADDRESS"
   local server_addr = os.getenv(env_name)
@@ -17,14 +19,6 @@ vim.api.nvim_create_user_command('ServerStop', function()
   vim.fn.serverstop(server_addr)
 end, { desc = "Stop the neovim server." })
 
--- NOTE command with args (for future reference)
--- vim.api.nvim_create_user_command('CommandName',
--- function (opts)
---   print(#opts.fargs)
---   print(opts.fargs)
--- end,
--- { nargs = '*' })
-
 vim.api.nvim_create_user_command('ConfigExplore', function()
   vim.cmd("Ex " .. vim.fn.stdpath("config"))
 end, { desc = "Open the user configuration directory with Netrw." })
@@ -32,7 +26,7 @@ end, { desc = "Open the user configuration directory with Netrw." })
 vim.api.nvim_create_user_command(
   'OSExplore',
   function(opts)
-    local buffer_base_path = user_functions.get_buffer_dir()
+    local buffer_base_path = utils.get_buffer_dir()
 
     if vim.fn.has("win32") == 1 then
       vim.cmd("silent !start \"\" \""..buffer_base_path.."\"")
@@ -61,7 +55,7 @@ vim.api.nvim_create_user_command(
       end
     end
   end,
-  {} -- NOTE nargs = 0 is the default
+  {}
 )
 
 vim.api.nvim_create_user_command(
@@ -80,11 +74,23 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   'CopyFilename',
   function(opts)
+    if vim.bo.filetype == "netrw" then return end
+
     local filename = vim.fn.expand("%:t")
     print(filename)
-    vim.fn.setreg('"', filename)
+    vim.fn.setreg(opts.reg ~= "" and opts.reg or '"', filename)
   end,
-  {}
+  { register = true } -- optional register argument
+)
+
+vim.api.nvim_create_user_command(
+  'CopyDirectory',
+  function(opts)
+    local directory = utils.get_buffer_dir()
+    print(directory)
+    vim.fn.setreg(opts.reg ~= "" and opts.reg or '"', directory)
+  end,
+  { register = true } -- optional register argument
 )
 
 vim.api.nvim_create_user_command(

@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local actions = require('telescope.actions')
 
 local builtin = require('telescope.builtin')
@@ -9,11 +11,11 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fg', builtin.git_files, {})
 
 vim.keymap.set('n', '<leader>fdf', function ()
-  builtin.find_files({ cwd = user_functions.get_buffer_dir() })
+  builtin.find_files({ cwd = utils.get_buffer_dir() })
 end, {})
 
 vim.keymap.set('n', '<leader>fds', function ()
-  builtin.live_grep({ cwd = user_functions.get_buffer_dir() })
+  builtin.live_grep({ cwd = utils.get_buffer_dir() })
 end, {})
 
 require('telescope').setup({
