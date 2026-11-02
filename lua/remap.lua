@@ -1,8 +1,6 @@
 vim.g.mapleader = " "
 -- vim.g.maplocalleader = "\\"
 
--- TODO not sure which I prefer yet
--- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("n", "<leader>rw", vim.cmd.Ex)
 
 -- clearing highlighting after search
@@ -42,11 +40,17 @@ vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>yy", "\"+yy")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
--- prevents space (our leader key) affecting size of visual selection
-vim.keymap.set("v", " ", "")
 
--- TODO not sure if needed yet
--- vim.keymap.set("n", "Q", "<nop>")
+-- prevent space (leader key) affecting position in normal mode / size of visual selection
+vim.keymap.set({ "n", "x" }, "<Space>", "<Nop>")
+
+vim.keymap.set("n", "ZZ", "<Nop>")
+vim.keymap.set("n", "ZQ", "<Nop>")
+
+-- this is legacy; more relevant for pre-nvim, but I don't need the nvim binding either
+-- (gQ replaces Q in nvim for Ex mode, Q in nvim replays most recently recorded macro;
+-- not to be confused with @@, which repeats the most recently run macro)
+vim.keymap.set("n", "Q", "<Nop>")
 
 -- QuickFix
 -- TODO add something for :cfirst/crewind? Maybe :crewind followed by :cfirst?

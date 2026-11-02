@@ -35,14 +35,25 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'gl', function() vim.diagnostic.open_float() end, opts)
 
     -- TODO apparently ctrl-w + d shows error/warning on line under cursor
-    vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
-    vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
-
+    vim.keymap.set('n', '[d', function()
+      vim.diagnostic.jump({ count=-1, float=true })
+    end, opts)
+    vim.keymap.set('n', ']d', function()
+      vim.diagnostic.jump({ count=1, float=true })
+    end, opts)
     vim.keymap.set('n', '[e', function()
-      vim.diagnostic.goto_prev({ severity = { min = vim.diagnostic.severity.ERROR } })
+      vim.diagnostic.jump({
+        count=-1,
+        float=true,
+        severity = { min = vim.diagnostic.severity.ERROR }
+      })
     end, opts)
     vim.keymap.set('n', ']e', function()
-      vim.diagnostic.goto_next({ severity = { min = vim.diagnostic.severity.ERROR } })
+      vim.diagnostic.jump({
+        count=1,
+        float=true,
+        severity = { min = vim.diagnostic.severity.ERROR }
+      })
     end, opts)
   end,
 })
@@ -115,6 +126,8 @@ vim.diagnostic.config({
 
 local cmp = require('cmp')
 cmp.setup({
+  -- NOTE some LSPs (like gopls) will suggest autocompletes to preselect - disable this
+  preselect = cmp.PreselectMode.None,
   sources = {
      {
        name = 'nvim_lsp',

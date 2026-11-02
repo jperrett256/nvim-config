@@ -39,3 +39,26 @@ vim.opt.scrolloff = 8
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- auto-source .nvim.lua from current directory (prompts to trust on first open)
+vim.opt.exrc = true
+
+-- OSC 52 (copy to system clipboard over SSH)
+-- NOTE nvim auto-detects this, but tmux can make detection unreliable
+if vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
+  -- NOTE tmux config must have `set -g set-clipboard on` as the default
+  -- tmux setting (`external`) ignores OSC 52 sequences from applications
+
+  local osc52 = require('vim.ui.clipboard.osc52')
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+  end
+
+  -- NOTE paste to clipboard via OSC 52 often disabled for security reasons
+  -- but copy to clipboard is the important behaviour anyway
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = { ['+'] = osc52.copy('+'), ['*'] = osc52.copy('*') },
+    paste = { ['+'] = paste, ['*'] = paste }
+  }
+end
+

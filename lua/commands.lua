@@ -76,6 +76,17 @@ vim.api.nvim_create_user_command(
   {}
 )
 
+-- NOTE works well with fugitive commit buffers (filename = commit hash)
+vim.api.nvim_create_user_command(
+  'CopyFilename',
+  function(opts)
+    local filename = vim.fn.expand("%:t")
+    print(filename)
+    vim.fn.setreg('"', filename)
+  end,
+  {}
+)
+
 vim.api.nvim_create_user_command(
   'SetTabWidth',
   function(opts)
