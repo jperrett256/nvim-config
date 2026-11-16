@@ -71,8 +71,12 @@ require("lazy").setup({
       opts = {},
       config = function()
         vim.g.lightline = {
-          ['colorscheme'] = 'rosepine'
-          -- ['colorscheme'] = 'one'
+          ['colorscheme'] = 'rosepine',
+          active = {
+            left = { { 'mode', 'paste' }, { 'fugitive_label', 'readonly', 'filename', 'modified' } },
+          },
+          component_expand = { fugitive_label = 'v:lua.FugitiveBufLabel' }, -- see after/plugin/fugitive.lua
+          component_type = { fugitive_label = 'error' },
         }
         vim.opt.laststatus = 3
         -- NOTE vim.opt.background is 'dark' by default
@@ -115,6 +119,7 @@ require("lazy").setup({
     {'neovim/nvim-lspconfig'}, -- NOTE provides default LSP configs
     {'hrsh7th/nvim-cmp'},
     {'hrsh7th/cmp-nvim-lsp'},
+    {'hrsh7th/cmp-buffer'},
     {'L3MON4D3/LuaSnip'},
     {'saadparwaiz1/cmp_luasnip'},
     {'ThePrimeagen/vim-be-good'}, -- NOTE misc plugin for learning vim

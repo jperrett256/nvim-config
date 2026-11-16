@@ -184,6 +184,17 @@ cmp.setup({
    end
 })
 
+-- buffer autocompletions in commit buffers (works really well with
+-- the cvc/cva fugitive mappings, which show the diff in the buffer)
+cmp.setup.filetype("gitcommit", {
+  sources = {
+    {
+      name = "buffer",
+      -- option = { get_bufnrs = function() return vim.api.nvim_list_bufs() end } -- all buffers, not just current
+    }
+  }
+})
+
 local ls = require("luasnip")
 
 -- NOTE expand binding is strictly unnecessary now that luasnip snippets appear
