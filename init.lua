@@ -3,6 +3,7 @@ require("autocommands")
 require("remap")
 require("netrw")
 require("commands")
+require("filetype")
 
 if vim.g.neovide then
   if vim.fn.has("win32") == 1 then

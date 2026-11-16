@@ -1,6 +1,6 @@
 -- NOTE FileType <-> treesitter parser mappings aren't always 1:1
 local parsers = {
-  'query', 'c', 'cpp', 'lua', 'rust', 'go', 'vim',
+  'query', 'c', 'cpp', 'lua', 'rust', 'go', 'vim', 'objc',
   {
     ft = { 'bash', 'sh', 'zsh' },
     ts = { 'bash' }, -- TODO use 'zsh' parser for 'zsh' ft?
