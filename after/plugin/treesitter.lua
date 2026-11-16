@@ -34,8 +34,11 @@ for _, item in pairs(parsers) do
   end
 end
 
+local group_ts = vim.api.nvim_create_augroup('user-treesitter', { clear = true })
+
 -- enable highlighting for relevant filetypes
 vim.api.nvim_create_autocmd('FileType', {
+  group = group_ts,
   pattern = vim.iter(parsers)
     :map(function(item) return type(item) == 'table' and item.ft or { item } end)
     :flatten()

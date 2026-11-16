@@ -1,4 +1,4 @@
-local group_general = vim.api.nvim_create_augroup("General", { clear = true })
+local group_general = vim.api.nvim_create_augroup("user-general", { clear = true })
 
 -- File Specific Settings
 vim.api.nvim_create_autocmd("FileType", {

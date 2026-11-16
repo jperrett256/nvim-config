@@ -2,7 +2,7 @@
 vim.g.netrw_banner = 0
 
 -- prevents netrw from appearing in the buffer list when hidden
--- local netrw = vim.api.nvim_create_augroup("netrw", {})
+-- local netrw = vim.api.nvim_create_augroup("augroup-netrw", {})
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "netrw",
 --   group = netrw,

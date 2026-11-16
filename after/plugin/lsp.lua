@@ -1,4 +1,7 @@
+local group_lsp = vim.api.nvim_create_augroup("user-lsp", { clear = true })
+
 vim.api.nvim_create_autocmd('LspAttach', {
+  group = group_lsp,
   callback = function(event)
     local bufnr = event.buf
     local opts = {buffer = bufnr} -- NOTE remap = false by default (remap is not recursive)

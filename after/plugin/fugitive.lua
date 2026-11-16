@@ -31,7 +31,7 @@ vim.keymap.set("n", "<leader>y<C-G>", "\"+y<C-G>", { remap = true })
 
 -- autocommands
 
-local group_fugitive = vim.api.nvim_create_augroup("Fugitive", { clear = true })
+local group_fugitive = vim.api.nvim_create_augroup("user-fugitive", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
   group = group_fugitive,
